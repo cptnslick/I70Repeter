@@ -2,24 +2,27 @@
 
 ## 1. Drop the RepeaterBook exports
 
-Run RepeaterBook's highway/route search for I-70 (Baltimore MD -> Westerville OH)
-plus the I-76 PA Turnpike segment (Breezewood -> New Stanton), and export
-**both** CSV and KML from the same search results:
+Run a RepeaterBook highway/route search and export **both** CSV and KML from
+the same search results into `data/raw/` — any filenames ending in `.csv`
+and `.kml` are picked up and merged, so a supplemental search (e.g. to fill
+a coverage gap) is just another pair dropped in next to the first:
 
 ```
-data/raw/repeaterbook-export.csv
-data/raw/repeaterbook-export.kml
+data/raw/repeaterbook-export-i70.csv           # main I-70 route search
+data/raw/repeaterbook-export-i70.kml
+data/raw/repeaterbook-export-pa-turnpike.csv    # supplemental: filled a gap over
+data/raw/repeaterbook-export-pa-turnpike.kml    # Bedford/Somerset/Westmoreland Co, PA
 ```
 
-Both are needed: the CSV carries County/State/Modes/tone data but has **no
-coordinates**; the KML carries lat/lon, on-air status, and a stable
-RepeaterBook detail-page ID but not the county/tone detail. `scripts/ingest.js`
-joins them by (callsign, freq), disambiguating same-callsign+freq entries
-(linked systems at two sites) by prefix-matching location text — the KML's
-location field is sometimes a truncated version of the CSV's (e.g. `"Frederick"`
-vs `"Frederick - Gambrill State Park"`).
+Both CSV and KML are needed per search: the CSV carries County/State/Modes/tone
+data but has **no coordinates**; the KML carries lat/lon, on-air status, and a
+stable RepeaterBook detail-page ID but not the county/tone detail.
+`scripts/ingest.js` joins them by (callsign, freq), disambiguating
+same-callsign+freq entries (linked systems at two sites) by prefix-matching
+location text — the KML's location field is sometimes a truncated version of
+the CSV's (e.g. `"Frederick"` vs `"Frederick - Gambrill State Park"`).
 
-Both raw exports are gitignored (`data/raw/*.csv`, `data/raw/*.kml`) —
+All raw exports are gitignored (`data/raw/*.csv`, `data/raw/*.kml`) —
 RepeaterBook's personal-use policy doesn't cover redistributing the raw
 export, so only the derived, scored `src/data/repeaters.json` is committed.
 
@@ -68,12 +71,10 @@ evidence into that bonus. Only research the plausible candidates (proximity
 to route + wide-coverage indicators like linked systems) — leave the rest at
 the RepeaterBook-only baseline and note "unverified" rather than guessing.
 
-## Known gap
+## Coverage
 
-The current export has no repeaters between Hagerstown, MD (route mile ~74)
-and Connellsville, PA (route mile ~170) — the entire PA Turnpike segment
-(Breezewood, Bedford, Somerset, Donegal, New Stanton) is uncovered. This
-looks like a blind spot in the original route search rather than an actual
-absence of repeaters there. Consider a supplemental RepeaterBook search
-scoped to Bedford/Somerset/Westmoreland County, PA if that stretch matters
-for the drive.
+A supplemental search scoped to Bedford/Somerset/Westmoreland County, PA
+filled an original gap over the PA Turnpike segment (Breezewood -> New
+Stanton) that the main I-70 route search missed. If a future re-run of the
+main search still misses a stretch, the same pattern works: a targeted
+county/highway search, exported as CSV+KML, dropped into `data/raw/`.

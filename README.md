@@ -8,15 +8,18 @@ score, on a live map with a tap-for-details panel.
 
 ## Status
 
-**Running on real RepeaterBook data.** `src/data/repeaters.json` has 50
-corridor repeaters (Baltimore -> Wheeling -> Columbus -> Westerville) ingested
-from a real RepeaterBook CSV+KML export. 17 of them have a club-activity
-research pass done (see `data/research-overrides.json`) — real clubs, real
-nets, sourced via web search (Antietam RA, WACOM, Carroll County ARC,
-Columbia ARA, Cambridge ARA, BRATS, Central Ohio Radio Club / Central Ohio
-Traffic Net). The rest sit at the RepeaterBook-only baseline score pending
-further research. See [Known gap](data/README.md#known-gap): the current
-export has no coverage of the PA Turnpike segment (Breezewood -> New Stanton).
+**Running on real RepeaterBook data, full corridor coverage.**
+`src/data/repeaters.json` has 70 corridor repeaters (Baltimore -> Hagerstown
+-> PA Turnpike (Bedford/Somerset/Westmoreland) -> Wheeling -> Columbus ->
+Westerville), ingested from two RepeaterBook CSV+KML export pairs — the main
+I-70 route search plus a supplemental search that filled an original gap
+over the PA Turnpike segment. 24 of the 70 have a club-activity research
+pass done (see `data/research-overrides.json`) — real clubs, real nets,
+sourced via web search: Antietam RA, WACOM, Carroll County ARC, Columbia
+ARA, Cambridge ARA, BRATS, Frederick ARC, Central Ohio Radio Club / Central
+Ohio Traffic Net, Bedford County ARS, Somerset County ARC, Westmoreland
+Emergency ARS. The rest sit at the RepeaterBook-only baseline score pending
+further research.
 
 ## Stack
 

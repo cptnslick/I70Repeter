@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-// Phase A ingest: data/raw/repeaterbook-export.csv (+ .kml for coordinates)
-// -> src/data/repeaters.json
+// Phase A ingest: every *.csv + *.kml pair in data/raw/ -> src/data/repeaters.json
 //
 // Usage:
 //   node scripts/ingest.js              build repeaters.json
@@ -13,13 +12,16 @@
 // scripts/parse-kml.mjs parses it and this script joins the two by
 // (callsign, freq, location), which is needed because RepeaterBook can
 // list the same callsign+freq at two different sites (a linked system).
+// All CSVs in data/raw/ are concatenated and all KMLs merged into one join
+// index, so a supplemental search (e.g. to fill a route gap) is just another
+// CSV+KML pair dropped in — no separate ingest step needed.
 //
 // Research overrides: manually/AI-researched club activity data
 // (data/research-overrides.json, keyed by repeater id) is merged on top of
 // the CSV+KML-derived record before scoring, so re-running ingest never
 // loses research work.
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import Papa from 'papaparse'
@@ -28,10 +30,19 @@ import { parseKml, buildKmlIndex, kmlKey, pickKmlMatch } from './parse-kml.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
-const CSV_PATH = join(ROOT, 'data/raw/repeaterbook-export.csv')
-const KML_PATH = join(ROOT, 'data/raw/repeaterbook-export.kml')
+const RAW_DIR = join(ROOT, 'data/raw')
 const OVERRIDES_PATH = join(ROOT, 'data/research-overrides.json')
 const OUT_PATH = join(ROOT, 'src/data/repeaters.json')
+
+// Every CSV+KML pair in data/raw/ is ingested and merged — one pair per
+// RepeaterBook search (e.g. the main I-70 route search, plus a supplemental
+// search to fill a gap like the PA Turnpike segment).
+function findRawFiles(ext) {
+  if (!existsSync(RAW_DIR)) return []
+  return readdirSync(RAW_DIR)
+    .filter((f) => f.toLowerCase().endsWith(ext))
+    .map((f) => join(RAW_DIR, f))
+}
 
 // Repeaters farther than this from the route line are dropped (perpendicular
 // distance in miles). 15mi cleanly separates legitimate corridor sites
@@ -62,19 +73,25 @@ function findColumn(headers, candidates) {
   return null
 }
 
-function loadCsv() {
-  if (!existsSync(CSV_PATH)) {
-    console.error(`Missing ${CSV_PATH}`)
+function loadCsvs(csvPaths) {
+  if (csvPaths.length === 0) {
+    console.error(`No CSV files found in ${RAW_DIR}`)
     console.error('Run a RepeaterBook highway/route search for I-70 (MD -> OH) plus the')
-    console.error('I-76 PA Turnpike segment, export CSV, and drop it at that path.')
+    console.error('I-76 PA Turnpike segment, export CSV, and drop it there.')
     process.exit(1)
   }
-  const raw = readFileSync(CSV_PATH, 'utf-8')
-  const parsed = Papa.parse(raw, { header: true, skipEmptyLines: true })
-  if (parsed.errors.length) {
-    console.warn(`CSV parse warnings (${parsed.errors.length}):`, parsed.errors.slice(0, 5))
+  let rows = []
+  let fields = []
+  for (const path of csvPaths) {
+    const raw = readFileSync(path, 'utf-8')
+    const parsed = Papa.parse(raw, { header: true, skipEmptyLines: true })
+    if (parsed.errors.length) {
+      console.warn(`${path}: CSV parse warnings (${parsed.errors.length}):`, parsed.errors.slice(0, 5))
+    }
+    if (fields.length === 0) fields = parsed.meta.fields ?? []
+    rows = rows.concat(parsed.data)
   }
-  return parsed
+  return { data: rows, fields }
 }
 
 function resolveColumns(headers) {
@@ -156,14 +173,18 @@ function mergeOverrides(records) {
 }
 
 function main() {
-  const { data, meta } = loadCsv()
-  const headers = meta.fields ?? []
+  const csvPaths = findRawFiles('.csv')
+  const kmlPaths = findRawFiles('.kml')
 
   if (process.argv.includes('--headers')) {
+    const { fields } = loadCsvs(csvPaths)
     console.log('CSV headers found:')
-    headers.forEach((h) => console.log(`  - ${h}`))
+    fields.forEach((h) => console.log(`  - ${h}`))
     return
   }
+
+  const { data, fields: headers } = loadCsvs(csvPaths)
+  console.log(`Loaded ${csvPaths.length} CSV file(s), ${data.length} rows total.`)
 
   const { resolved: cols, missing } = resolveColumns(headers)
   if (missing.length) {
@@ -171,13 +192,14 @@ function main() {
     console.warn('Run with --headers to see actual CSV column names and update COLUMN_MAP.')
   }
 
-  if (!existsSync(KML_PATH)) {
-    console.error(`Missing ${KML_PATH}`)
+  if (kmlPaths.length === 0) {
+    console.error(`No KML files found in ${RAW_DIR}`)
     console.error('The CSV export has no lat/lon. Also export KML from the same')
-    console.error('RepeaterBook search and drop it at that path.')
+    console.error('RepeaterBook search and drop it there.')
     process.exit(1)
   }
-  const kmlIndex = buildKmlIndex(parseKml(KML_PATH))
+  const kmlIndex = buildKmlIndex(kmlPaths.flatMap(parseKml))
+  console.log(`Loaded ${kmlPaths.length} KML file(s).`)
 
   const seen = new Set()
   const records = []

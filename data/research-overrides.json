@@ -152,5 +152,64 @@
       "Unverified: could not confirm a sponsoring club or scheduled net for this repeater"
     ],
     "score_bonus": 0
+  },
+  "rb-42-7762": {
+    "club_name": "Westmoreland Emergency Amateur Radio Service (WEARS, WC3PS)",
+    "club_url": "https://wc3ps.org/",
+    "evidence": [
+      "Active multi-mode club site at Westmoreland County 911 center",
+      "PA D-Star Net Mondays 9pm on this repeater; VHF Winlink gateway"
+    ],
+    "score_bonus": 55,
+    "net_times": [{ "dow": "Mon", "time": "21:00", "tz": "America/New_York" }]
+  },
+  "rb-42-7697": {
+    "club_name": "Somerset County Amateur Radio Club (K3SMT)",
+    "club_url": "https://k3smt.org/repeaters/",
+    "evidence": [
+      "ARRL/ARES/RACES-affiliated active club"
+    ],
+    "score_bonus": 40
+  },
+  "rb-42-7796": {
+    "club_name": "Somerset County Amateur Radio Club (K3SMT)",
+    "club_url": "https://k3smt.org/repeaters/",
+    "evidence": [
+      "ARRL/ARES/RACES-affiliated active club"
+    ],
+    "score_bonus": 35
+  },
+  "rb-42-7818": {
+    "club_name": "Somerset County Amateur Radio Club (K3SMT)",
+    "club_url": "https://k3smt.org/repeaters/",
+    "evidence": [
+      "Mt Davis site, part of the K3SMT club repeater group"
+    ],
+    "score_bonus": 35
+  },
+  "rb-42-7616": {
+    "club_name": "Bedford County Amateur Radio Society (BCARS)",
+    "club_url": "https://www.bcars.org/",
+    "evidence": [
+      "Founded 1959; meets 1st Thursday monthly at Bedford American Legion Post 113",
+      "Runs two recurring nets"
+    ],
+    "score_bonus": 50
+  },
+  "rb-42-13623": {
+    "club_name": "Bedford County Amateur Radio Society (BCARS)",
+    "club_url": "https://www.bcars.org/",
+    "evidence": [
+      "Clearville - Martin Hill site, part of the W3ZC/BCARS club system"
+    ],
+    "score_bonus": 40
+  },
+  "rb-42-18027": {
+    "club_name": "Bedford County Amateur Radio Society (BCARS)",
+    "club_url": "https://www.bcars.org/",
+    "evidence": [
+      "70cm counterpart to the BCARS Kinton Knob site"
+    ],
+    "score_bonus": 40
   }
 }

@@ -5,6 +5,19 @@
 // (same callsign+freq at two different sites) need to disambiguate.
 import { readFileSync } from 'node:fs'
 
+// RepeaterBook state_id -> full state name, for KML-only records (no CSV
+// "State" column to fall back on). Extend as new corridor states show up.
+export const STATE_ID_NAMES = {
+  '08': 'Colorado',
+  '17': 'Illinois',
+  '18': 'Indiana',
+  '20': 'Kansas',
+  '24': 'Maryland',
+  '39': 'Ohio',
+  '42': 'Pennsylvania',
+  '54': 'West Virginia',
+}
+
 export function normLocation(s) {
   return s.trim().toLowerCase().replace(/\s+/g, ' ')
 }
@@ -50,9 +63,14 @@ export function parseKml(path) {
     const onairLine = lines.find((l) => l.startsWith('On-air:')) ?? ''
     const detailHref = block.match(/href='([^']*)'/)?.[1]
 
-    const freqMatch = freqLine.match(/^([\d.]+)/)
+    // freqLine looks like "146.640000- 131.8" (freq, offset sign, tone) —
+    // used directly when a record has no corresponding CSV row to join.
+    const freqMatch = freqLine.match(/^([\d.]+)\s*([+\-s])?\s*(\S*)/)
     if (!freqMatch) continue
     const freq = parseFloat(freqMatch[1])
+    const offsetSign = freqMatch[2] ?? null
+    const toneRaw = (freqMatch[3] ?? '').trim()
+    const tone = !toneRaw || toneRaw.toUpperCase() === 'CSQ' ? null : toneRaw
 
     const [lonStr, latStr] = coordsRaw.split(',')
     const lat = parseFloat(latStr)
@@ -69,7 +87,20 @@ export function parseKml(path) {
       rbId = u.searchParams.get('ID')
     }
 
-    records.push({ callsign: name, location, freq, lat, lon, onair, rbUrl: detailHref, stateId, rbId })
+    records.push({
+      callsign: name,
+      location,
+      freq,
+      offsetSign,
+      tone,
+      lat,
+      lon,
+      onair,
+      rbUrl: detailHref,
+      stateId,
+      rbId,
+      state: STATE_ID_NAMES[stateId] ?? null,
+    })
   }
   return records
 }
