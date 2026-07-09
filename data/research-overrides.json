@@ -1,1 +1,156 @@
-{}
+{
+  "rb-24-47": {
+    "club_name": "Antietam Radio Association (W3CWC)",
+    "club_url": "https://antietamradio.org",
+    "evidence": [
+      "Active club since 1953, current site at antietamradio.org / w3cwc.org",
+      "Club meets 1st & 3rd Tuesday monthly; biweekly club net rotates between this repeater and Pen Mar (check site for exact day)"
+    ],
+    "score_bonus": 55
+  },
+  "rb-24-55": {
+    "club_name": "Antietam Radio Association (W3CWC)",
+    "club_url": "https://antietamradio.org",
+    "evidence": [
+      "Active club since 1953, current site at antietamradio.org / w3cwc.org",
+      "Pen Mar - Quirauk Mtn site, part of the W3CWC linked repeater group"
+    ],
+    "score_bonus": 50
+  },
+  "rb-24-26": {
+    "club_name": "Frederick Amateur Radio Club / MAWCG",
+    "club_url": "https://frederickarc.org/repeaters/",
+    "evidence": [
+      "Maintained by Frederick ARC and Mid-Atlantic Wireless Communications Group",
+      "AllStar + EchoLink linked (confirmed by RepeaterBook Modes)"
+    ],
+    "score_bonus": 45
+  },
+  "rb-24-21372": {
+    "club_name": "Frederick Amateur Radio Club / MAWCG",
+    "club_url": "https://frederickarc.org/repeaters/",
+    "evidence": [
+      "Gambrill State Park site, same club as the 146.73 machine",
+      "Fusion / Wires-X linked (confirmed by RepeaterBook Modes)"
+    ],
+    "score_bonus": 40
+  },
+  "rb-42-7651": {
+    "club_name": "WACOM (Washington Amateur Communications, WA3COM)",
+    "club_url": "https://www.wa3com.com/nets",
+    "evidence": [
+      "Washington & Greene County 2m Net, Tuesdays 8pm ET",
+      "NBEMS digital training net, Wednesdays 8pm ET",
+      "EchoLink node WA3COM-R; part of the Keystone Wide Digital Network"
+    ],
+    "score_bonus": 65
+  },
+  "rb-39-45": {
+    "club_name": "Cambridge Amateur Radio Association (W8VP)",
+    "club_url": "https://www.w8vp.org/",
+    "evidence": [
+      "Club founded 1913; weekly local/traffic net Tuesdays 8pm on this exact frequency (146.850, PL 91.5)",
+      "Active newsletter and public-service program"
+    ],
+    "score_bonus": 60
+  },
+  "rb-39-7205": {
+    "club_name": "Central Ohio Radio Club (Central Ohio Traffic Net)",
+    "club_url": "https://www.cotn.us/",
+    "evidence": [
+      "Central Ohio Traffic Net meets daily 7:15pm on this exact frequency (146.970, PL 123.0) — running since 1985",
+      "National Traffic System-affiliated"
+    ],
+    "score_bonus": 70,
+    "net_times": [{ "dow": "daily", "time": "19:15", "tz": "America/New_York" }]
+  },
+  "rb-24-16": {
+    "club_name": "Carroll County Amateur Radio Club (K3PZN)",
+    "club_url": "https://k3pzn.net/repeaters/",
+    "evidence": [
+      "Club-linked repeater system; club nets Tuesday + Wednesday 8:30pm cross-link this and the Sykesville machine"
+    ],
+    "score_bonus": 50,
+    "net_times": [
+      { "dow": "Tue", "time": "20:30", "tz": "America/New_York" },
+      { "dow": "Wed", "time": "20:30", "tz": "America/New_York" }
+    ]
+  },
+  "rb-24-69": {
+    "club_name": "Carroll County Amateur Radio Club (K3PZN)",
+    "club_url": "https://k3pzn.net/repeaters/",
+    "evidence": [
+      "Sykesville machine, cross-linked with Westminster for club nets Tue/Wed 8:30pm"
+    ],
+    "score_bonus": 45,
+    "net_times": [
+      { "dow": "Tue", "time": "20:30", "tz": "America/New_York" },
+      { "dow": "Wed", "time": "20:30", "tz": "America/New_York" }
+    ]
+  },
+  "rb-24-197": {
+    "club_name": "Carroll County Amateur Radio Club (K3PZN)",
+    "club_url": "https://k3pzn.net/repeaters/",
+    "evidence": [
+      "Westminster UHF/Fusion machine, part of the club-linked K3PZN system"
+    ],
+    "score_bonus": 45
+  },
+  "rb-24-59": {
+    "club_name": "Columbia Amateur Radio Association (K3CUJ)",
+    "club_url": "https://columbiaara.org/",
+    "evidence": [
+      "Established 1973, 170+ members; active Facebook page",
+      "Meets 4th Tuesday monthly at Johns Hopkins Applied Physics Lab"
+    ],
+    "score_bonus": 50
+  },
+  "rb-24-76": {
+    "club_name": "Columbia Amateur Radio Association (K3CUJ)",
+    "club_url": "https://columbiaara.org/",
+    "evidence": [
+      "Cooksville machine, part of the K3CUJ club repeater group"
+    ],
+    "score_bonus": 40
+  },
+  "rb-24-52": {
+    "club_name": "Baltimore Radio Amateur Television Society (BRATS)",
+    "club_url": "https://bratsatv.org/repeaters/",
+    "evidence": [
+      "Operating since the mid-1970s, recently upgraded to a software-based controller",
+      "Hosts SKYWARN Baltimore/Harford subnet plus other nets most days of the week"
+    ],
+    "score_bonus": 45
+  },
+  "rb-39-5845": {
+    "club_name": "Central Ohio Radio Club",
+    "club_url": "https://corc.us/",
+    "evidence": [
+      "Central Ohio Severe Weather Net, Tuesdays 7:30pm (Mar-Sep weekly, Oct-Feb 2nd Tuesday)"
+    ],
+    "score_bonus": 45,
+    "net_times": [{ "dow": "Tue", "time": "19:30", "tz": "America/New_York" }]
+  },
+  "rb-39-12": {
+    "club_name": "Franklin County ARES / Central Ohio Radio Club",
+    "club_url": "https://corc.us/",
+    "evidence": [
+      "Franklin County Ohio Amateur Radio Emergency Service repeater"
+    ],
+    "score_bonus": 35
+  },
+  "rb-39-7539": {
+    "club_name": "Capital City Repeater Association",
+    "club_url": "https://www.ohioccra.net/",
+    "evidence": [
+      "Recognized active club (ohioccra.net); specific net schedule not confirmed"
+    ],
+    "score_bonus": 20
+  },
+  "rb-54-28": {
+    "evidence": [
+      "Unverified: could not confirm a sponsoring club or scheduled net for this repeater"
+    ],
+    "score_bonus": 0
+  }
+}

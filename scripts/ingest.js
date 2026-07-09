@@ -1,65 +1,55 @@
 #!/usr/bin/env node
-// Phase A ingest: data/raw/repeaterbook-export.csv -> src/data/repeaters.json
+// Phase A ingest: data/raw/repeaterbook-export.csv (+ .kml for coordinates)
+// -> src/data/repeaters.json
 //
 // Usage:
 //   node scripts/ingest.js              build repeaters.json
-//   node scripts/ingest.js --headers    just print the CSV's column headers and exit
-//                                       (run this first against the real export to
-//                                       confirm/adjust the COLUMN_MAP below)
+//   node scripts/ingest.js --headers    print the CSV's column headers and exit
 //
-// RepeaterBook's personal-use CSV export column names vary slightly by export
-// type (route search vs proximity search). COLUMN_MAP below lists the
-// candidate header names we'll try, case-insensitively, for each field.
-// If the real export uses different headers, add them to the candidate lists.
+// RepeaterBook's personal-use CSV export (route/highway search) has no
+// lat/lon, operational-status, or "last verified" columns. The companion
+// KML export (also a personal-use download from the same search) has
+// coordinates, on-air status, and a stable RepeaterBook detail-page ID —
+// scripts/parse-kml.mjs parses it and this script joins the two by
+// (callsign, freq, location), which is needed because RepeaterBook can
+// list the same callsign+freq at two different sites (a linked system).
 //
 // Research overrides: manually/AI-researched club activity data
 // (data/research-overrides.json, keyed by repeater id) is merged on top of
-// the CSV-derived record before scoring, so re-running ingest never loses
-// research work.
+// the CSV+KML-derived record before scoring, so re-running ingest never
+// loses research work.
 
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import Papa from 'papaparse'
 import { nearestOnRoute } from '../src/lib/geo.js'
+import { parseKml, buildKmlIndex, kmlKey, pickKmlMatch } from './parse-kml.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
 const CSV_PATH = join(ROOT, 'data/raw/repeaterbook-export.csv')
+const KML_PATH = join(ROOT, 'data/raw/repeaterbook-export.kml')
 const OVERRIDES_PATH = join(ROOT, 'data/research-overrides.json')
 const OUT_PATH = join(ROOT, 'src/data/repeaters.json')
 
 // Repeaters farther than this from the route line are dropped (perpendicular
-// distance in miles). Keeps the dataset to corridor-relevant machines.
-const MAX_ROUTE_DIST_MILES = 20
+// distance in miles). 15mi cleanly separates legitimate corridor sites
+// (mountaintop repeaters can sit several miles off the direct highway line)
+// from off-route noise like DC-suburb repeaters near the Baltimore endpoint.
+const MAX_ROUTE_DIST_MILES = 15
 
 const COLUMN_MAP = {
-  id: ['Repeater ID', 'ID', 'Rptr ID'],
-  callsign: ['Callsign', 'Call Sign', 'Call'],
-  frequency: ['Frequency', 'Output Freq', 'Output Frequency'],
+  callsign: ['Call', 'Callsign', 'Call Sign'],
+  frequency: ['Output Freq', 'Frequency', 'Output Frequency'],
   inputFrequency: ['Input Freq', 'Input Frequency', 'Uplink Freq'],
-  pl: ['PL', 'PL Tone', 'CTCSS', 'Uplink Tone'],
-  tsq: ['TSQ', 'Downlink Tone', 'DTone'],
-  location: ['Nearest City', 'Location', 'Landmark'],
+  toneIn: ['Uplink Tone', 'PL', 'PL Tone', 'CTCSS'],
+  toneOut: ['Downlink Tone', 'TSQ', 'DTone'],
+  location: ['Location', 'Nearest City', 'Landmark'],
   county: ['County'],
   state: ['State'],
-  use: ['Use'],
-  status: ['Operational Status', 'Status'],
-  sponsor: ['Sponsor', 'Club', 'Trustee'],
-  lat: ['Lat', 'Latitude'],
-  lon: ['Long', 'Lon', 'Longitude'],
-  echolink: ['EchoLink Node', 'EchoLink'],
-  irlp: ['IRLP Node', 'IRLP'],
-  allstar: ['AllStar Node', 'AllStar'],
-  wires: ['Wires Node', 'Wires', 'YSF'],
-  fmBandwidth: ['FM Bandwidth'],
-  dmr: ['DMR'],
-  dstar: ['D-Star', 'DStar'],
-  nxdn: ['NXDN'],
-  p25: ['P25', 'P-25'],
-  fusion: ['Fusion', 'System Fusion'],
-  lastUpdate: ['Last Update', 'Last Updated', 'Update Date'],
-  notes: ['Notes', 'Comments'],
+  modes: ['Modes'],
+  digitalAccess: ['Digital Access'],
 }
 
 function findColumn(headers, candidates) {
@@ -109,21 +99,14 @@ function computeOffset(freq, inputFreq, band) {
     const diff = +(inputFreq - freq).toFixed(4)
     if (Math.abs(diff) > 0.0001) return diff
   }
-  // Standard offset fallback by band convention.
   return band === '2m' ? -0.6 : -5.0
 }
 
-function isOperational(statusRaw) {
-  if (!statusRaw) return true // unknown status -> keep, don't silently drop
-  const s = statusRaw.trim().toLowerCase()
-  return s.includes('on-air') || s === 'on air' || s === 'operational' || s === 'active'
-}
-
-function isAnalogFm(row, cols) {
-  // If RepeaterBook flags a digital-only mode and no analog/FM indication, skip.
-  const digitalFlags = ['dmr', 'dstar', 'nxdn', 'p25', 'fusion'].map((f) => row[cols[f]])
-  const allDigitalBlank = digitalFlags.every((v) => !v || v.trim() === '')
-  return allDigitalBlank || (row[cols.fmBandwidth] && row[cols.fmBandwidth].trim() !== '')
+function cleanTone(tone) {
+  const t = (tone || '').trim()
+  if (!t || t.toUpperCase() === 'CSQ') return null
+  if (/^D\d+$/i.test(t)) return null // digital NAC/color code, not an analog PL tone
+  return t
 }
 
 function monthsSince(dateStr) {
@@ -146,7 +129,7 @@ function linkedSystemScore(record) {
 
 function baseScore(record) {
   // Deterministic portion computable from RepeaterBook data alone.
-  // The remaining ~65 points (club site, Facebook, nets, trustee/newsletter
+  // The remaining points (club site, Facebook, nets, trustee/newsletter
   // activity) come from the manual/AI research pass and live in
   // data/research-overrides.json — see mergeOverrides().
   return verifiedScore(record.last_verified) + linkedSystemScore(record)
@@ -188,57 +171,77 @@ function main() {
     console.warn('Run with --headers to see actual CSV column names and update COLUMN_MAP.')
   }
 
+  if (!existsSync(KML_PATH)) {
+    console.error(`Missing ${KML_PATH}`)
+    console.error('The CSV export has no lat/lon. Also export KML from the same')
+    console.error('RepeaterBook search and drop it at that path.')
+    process.exit(1)
+  }
+  const kmlIndex = buildKmlIndex(parseKml(KML_PATH))
+
   const seen = new Set()
   const records = []
+  let unmatched = 0
 
   for (const row of data) {
     const freq = parseFloat(row[cols.frequency])
     if (!Number.isFinite(freq)) continue
     const band = toBand(freq)
     if (!band) continue
-    if (!isOperational(row[cols.status])) continue
-    if (!isAnalogFm(row, cols)) continue
 
-    const lat = parseFloat(row[cols.lat])
-    const lon = parseFloat(row[cols.lon])
-    if (!Number.isFinite(lat) || !Number.isFinite(lon)) continue
-
-    const inputFreq = parseFloat(row[cols.inputFrequency])
-    const offset = computeOffset(freq, inputFreq, band)
+    const modes = (row[cols.modes] || '').trim()
+    if (!/\bFM\b/i.test(modes)) continue // not analog-FM capable
 
     const callsign = (row[cols.callsign] || '').trim()
-    const dedupeKey = `${callsign}-${freq}-${lat.toFixed(3)}-${lon.toFixed(3)}`
+    const location = (row[cols.location] || '').trim()
+
+    const key = kmlKey(callsign, freq)
+    const candidates = kmlIndex.get(key)
+    const kmlEntry = candidates?.length ? pickKmlMatch(candidates, location) : null
+    if (!kmlEntry) {
+      unmatched++
+      continue
+    }
+    // Consume this candidate so a second CSV row with the same callsign+freq
+    // (a linked system at two sites) doesn't get matched to the same KML entry.
+    candidates.splice(candidates.indexOf(kmlEntry), 1)
+    if (!kmlEntry.onair) continue
+
+    const dedupeKey = `${callsign}-${freq}-${kmlEntry.lat.toFixed(3)}-${kmlEntry.lon.toFixed(3)}`
     if (seen.has(dedupeKey)) continue
     seen.add(dedupeKey)
 
-    const { routeMile, distMiles } = nearestOnRoute(lat, lon)
+    const { routeMile, distMiles } = nearestOnRoute(kmlEntry.lat, kmlEntry.lon)
     if (distMiles > MAX_ROUTE_DIST_MILES) continue
 
-    const idSource = row[cols.id] || dedupeKey
+    const inputFreq = parseFloat(row[cols.inputFrequency])
+    const offset = computeOffset(freq, inputFreq, band)
+    const modesUpper = modes.toUpperCase()
+
     records.push({
-      id: `rb-${String(idSource).replace(/\W+/g, '').slice(0, 24) || records.length}`,
+      id: kmlEntry.stateId && kmlEntry.rbId ? `rb-${kmlEntry.stateId}-${kmlEntry.rbId}` : `rb-${dedupeKey.replace(/\W+/g, '')}`,
       callsign,
       freq,
       offset,
-      tone_in: (row[cols.pl] || '').trim() || null,
-      tone_out: (row[cols.tsq] || '').trim() || null,
+      tone_in: cleanTone(row[cols.toneIn]),
+      tone_out: cleanTone(row[cols.toneOut]),
       band,
-      lat,
-      lon,
-      city: (row[cols.location] || '').trim(),
+      lat: kmlEntry.lat,
+      lon: kmlEntry.lon,
+      city: location,
       state: (row[cols.state] || '').trim(),
       county: (row[cols.county] || '').trim(),
-      club: (row[cols.sponsor] || '').trim() || null,
+      club: null,
       club_url: null,
       score: 0,
       evidence: [],
       net_times: [],
-      echolink: (row[cols.echolink] || '').trim() || null,
-      allstar: (row[cols.allstar] || '').trim() || null,
-      irlp: (row[cols.irlp] || '').trim() || null,
-      wires: (row[cols.wires] || '').trim() || null,
-      last_verified: (row[cols.lastUpdate] || '').trim() || null,
-      rb_url: cols.id ? `https://www.repeaterbook.com/repeaters/details.php?id=${row[cols.id]}` : null,
+      echolink: modesUpper.includes('ECHOLINK') || null,
+      allstar: modesUpper.includes('ALLSTAR') || null,
+      irlp: modesUpper.includes('IRLP') || null,
+      wires: (modesUpper.includes('WIRES') || modesUpper.includes('FUSION')) || null,
+      last_verified: null,
+      rb_url: kmlEntry.rbUrl ?? null,
       route_mile: Math.round(routeMile * 10) / 10,
       route_dist_mi: Math.round(distMiles * 10) / 10,
     })
@@ -250,6 +253,7 @@ function main() {
   if (!existsSync(dirname(OUT_PATH))) mkdirSync(dirname(OUT_PATH), { recursive: true })
   writeFileSync(OUT_PATH, JSON.stringify(scored, null, 2) + '\n')
   console.log(`Wrote ${scored.length} repeaters to ${OUT_PATH}`)
+  if (unmatched) console.log(`${unmatched} CSV rows had no KML coordinate match (skipped).`)
 
   const researched = scored.filter((r) => r.evidence.length > 0).length
   console.log(`${researched}/${scored.length} have research-overrides evidence.`)

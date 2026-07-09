@@ -8,11 +8,15 @@ score, on a live map with a tap-for-details panel.
 
 ## Status
 
-**MVP app shell is built and running against placeholder data.** The real
-RepeaterBook export hasn't been dropped in yet — see [Data pipeline](#data-pipeline)
-below. Until then, `src/data/repeaters.json` contains obviously-fake
-`PLACEHOLDER` entries (a banner in the app says so) so the UI is fully
-testable end to end.
+**Running on real RepeaterBook data.** `src/data/repeaters.json` has 50
+corridor repeaters (Baltimore -> Wheeling -> Columbus -> Westerville) ingested
+from a real RepeaterBook CSV+KML export. 17 of them have a club-activity
+research pass done (see `data/research-overrides.json`) — real clubs, real
+nets, sourced via web search (Antietam RA, WACOM, Carroll County ARC,
+Columbia ARA, Cambridge ARA, BRATS, Central Ohio Radio Club / Central Ohio
+Traffic Net). The rest sit at the RepeaterBook-only baseline score pending
+further research. See [Known gap](data/README.md#known-gap): the current
+export has no coverage of the PA Turnpike segment (Breezewood -> New Stanton).
 
 ## Stack
 

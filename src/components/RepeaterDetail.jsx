@@ -76,10 +76,10 @@ export default function RepeaterDetail({ repeater, isNetNow, onClose }) {
       )}
 
       <div className="text-sm text-slate-400 grid grid-cols-2 gap-x-4 gap-y-1">
-        {repeater.echolink && <div>EchoLink: {repeater.echolink}</div>}
-        {repeater.allstar && <div>AllStar: {repeater.allstar}</div>}
-        {repeater.irlp && <div>IRLP: {repeater.irlp}</div>}
-        {repeater.wires && <div>Wires-X: {repeater.wires}</div>}
+        {repeater.echolink && <div>EchoLink linked</div>}
+        {repeater.allstar && <div>AllStar linked</div>}
+        {repeater.irlp && <div>IRLP linked</div>}
+        {repeater.wires && <div>Fusion / Wires-X linked</div>}
         {repeater.last_verified && <div>Verified: {repeater.last_verified}</div>}
         <div>
           {repeater.distMiles?.toFixed(1)}mi {repeater.compass}

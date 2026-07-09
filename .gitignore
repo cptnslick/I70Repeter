@@ -12,8 +12,9 @@ dist
 dist-ssr
 *.local
 
-# RepeaterBook personal-use export: keep locally, don't redistribute via git.
+# RepeaterBook personal-use exports: keep locally, don't redistribute via git.
 data/raw/*.csv
+data/raw/*.kml
 
 # Editor directories and files
 .vscode/*
