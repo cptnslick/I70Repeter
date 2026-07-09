@@ -290,5 +290,113 @@
       "Wide-area mountaintop site co-located with Fayette County 911, emergency generator backup"
     ],
     "score_bonus": 40
+  },
+  "rb-24-116": {
+    "evidence": [
+      "One of 3 permanently-linked ARES repeaters (with K3KMA Thurmont, N3ITA Frederick) covering both sides of South Mountain, Pen Mar to Harper's Ferry",
+      "Full-time connected to the CMRG linked system; EchoLink 481682 reaches all three sites"
+    ],
+    "score_bonus": 40
+  },
+  "rb-24-171": {
+    "evidence": [
+      "One of 3 permanently-linked ARES repeaters (with N3UHD Clear Spring, N3ITA Frederick) covering South Mountain, Pen Mar to Harper's Ferry",
+      "Full-time connected to the CMRG linked system"
+    ],
+    "score_bonus": 40
+  },
+  "rb-24-3782": {
+    "evidence": [
+      "One of 3 permanently-linked ARES repeaters (with N3UHD Clear Spring, K3KMA Thurmont) covering South Mountain, Pen Mar to Harper's Ferry",
+      "Full-time connected to the CMRG linked system"
+    ],
+    "score_bonus": 40
+  },
+  "rb-24-122": {
+    "evidence": [
+      "Confirmed IRLP node 8657, maintained personal site at kd3su.com"
+    ],
+    "score_bonus": 20
+  },
+  "rb-39-5846": {
+    "club_name": "Capital City Repeater Association (CCRA)",
+    "club_url": "https://www.ohioccra.net/",
+    "evidence": [
+      "FM/P25 repeater affiliated with CCRA, listed in Ohio Area Repeater Council directory"
+    ],
+    "score_bonus": 30
+  },
+  "rb-39-6635": {
+    "club_name": "Central Ohio Radio Club",
+    "club_url": "https://corc.us/",
+    "evidence": [
+      "Same trustee/club as the CORC 146.760 severe weather net repeater"
+    ],
+    "score_bonus": 30
+  },
+  "rb-42-7675": {
+    "club_name": "Mount Pleasant Amateur Radio Association",
+    "club_url": "https://www.qsl.net/ahra/",
+    "evidence": [
+      "Confirmed club-operated repeater on Laurel Mtn"
+    ],
+    "score_bonus": 35
+  },
+  "rb-42-7846": {
+    "club_name": "Somerset County EMA / RACES",
+    "evidence": [
+      "Official RACES repeater with very wide coverage: Rt 30 and the PA Turnpike from the Bedford/Somerset county line, ~80mi, plus parts of Rt 81/22/422",
+      "Directly covers the PA Turnpike corridor this route drives"
+    ],
+    "score_bonus": 45
+  },
+  "rb-42-7594": {
+    "club_name": "Chestnut Ridge Amateur Radio Club",
+    "club_url": "https://www.qsl.net/n3ydf/chestnut.html",
+    "evidence": [
+      "Primary NWS Skywarn repeater for Westmoreland County",
+      "Westmoreland County Public Service Net, Wednesdays 8pm on this frequency",
+      "Primary county ARES/RACES machine"
+    ],
+    "score_bonus": 55,
+    "net_times": [{ "dow": "Wed", "time": "20:00", "tz": "America/New_York" }]
+  },
+  "rb-42-22150": {
+    "club_name": "Laurel Highlands VHF Society (WA3TVG)",
+    "club_url": "https://www.qsl.net/w3sii/",
+    "evidence": [
+      "70cm companion to the club's 146.670 Jeannette repeater (same trustee/site)"
+    ],
+    "score_bonus": 30
+  },
+  "rb-39-7229": {
+    "club_name": "Central Ohio Radio Club",
+    "club_url": "https://corc.us/",
+    "evidence": [
+      "Listed under CORC in the Ohio Area Repeater Council directory (sources differ; also listed elsewhere under a different local club)"
+    ],
+    "score_bonus": 20
+  },
+  "rb-39-7239": {
+    "club_name": "Capital City Repeater Association (CCRA)",
+    "club_url": "https://www.ohioccra.net/",
+    "evidence": [
+      "Confirmed CCRA-sponsored repeater (OARC directory)"
+    ],
+    "score_bonus": 30
+  },
+  "rb-39-657": {
+    "club_name": "Zanesville Amateur Radio Club (W8ZZV)",
+    "evidence": [
+      "Club meets 1st Tuesday monthly 7pm at Muskingum County EMA"
+    ],
+    "score_bonus": 35
+  },
+  "rb-39-473": {
+    "club_name": "Tri-County Repeater Club",
+    "evidence": [
+      "Confirmed club-sponsored repeater (OARC directory)"
+    ],
+    "score_bonus": 30
   }
 }

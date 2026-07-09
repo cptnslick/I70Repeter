@@ -488,8 +488,11 @@
     "county": "Frederick",
     "club": null,
     "club_url": null,
-    "score": 0,
-    "evidence": [],
+    "score": 40,
+    "evidence": [
+      "One of 3 permanently-linked ARES repeaters (with N3UHD Clear Spring, K3KMA Thurmont) covering South Mountain, Pen Mar to Harper's Ferry",
+      "Full-time connected to the CMRG linked system"
+    ],
     "net_times": [],
     "echolink": null,
     "allstar": null,
@@ -572,8 +575,10 @@
     "county": "Washington",
     "club": null,
     "club_url": null,
-    "score": 0,
-    "evidence": [],
+    "score": 20,
+    "evidence": [
+      "Confirmed IRLP node 8657, maintained personal site at kd3su.com"
+    ],
     "net_times": [],
     "echolink": null,
     "allstar": null,
@@ -599,8 +604,11 @@
     "county": "Frederick",
     "club": null,
     "club_url": null,
-    "score": 0,
-    "evidence": [],
+    "score": 40,
+    "evidence": [
+      "One of 3 permanently-linked ARES repeaters (with N3UHD Clear Spring, N3ITA Frederick) covering South Mountain, Pen Mar to Harper's Ferry",
+      "Full-time connected to the CMRG linked system"
+    ],
     "net_times": [],
     "echolink": null,
     "allstar": null,
@@ -796,8 +804,11 @@
     "county": "Washington",
     "club": null,
     "club_url": null,
-    "score": 10,
-    "evidence": [],
+    "score": 50,
+    "evidence": [
+      "One of 3 permanently-linked ARES repeaters (with K3KMA Thurmont, N3ITA Frederick) covering both sides of South Mountain, Pen Mar to Harper's Ferry",
+      "Full-time connected to the CMRG linked system; EchoLink 481682 reaches all three sites"
+    ],
     "net_times": [],
     "echolink": true,
     "allstar": null,
@@ -1131,10 +1142,12 @@
     "city": "Mount Pleasant - Laurel Mtn",
     "state": "Pennsylvania",
     "county": "Westmoreland",
-    "club": null,
-    "club_url": null,
-    "score": 0,
-    "evidence": [],
+    "club": "Mount Pleasant Amateur Radio Association",
+    "club_url": "https://www.qsl.net/ahra/",
+    "score": 35,
+    "evidence": [
+      "Confirmed club-operated repeater on Laurel Mtn"
+    ],
     "net_times": [],
     "echolink": null,
     "allstar": null,
@@ -1185,10 +1198,13 @@
     "city": "Jennerstown - Above Old Roaring Run Scout Camp",
     "state": "Pennsylvania",
     "county": "Somerset",
-    "club": null,
+    "club": "Somerset County EMA / RACES",
     "club_url": null,
-    "score": 0,
-    "evidence": [],
+    "score": 45,
+    "evidence": [
+      "Official RACES repeater with very wide coverage: Rt 30 and the PA Turnpike from the Bedford/Somerset county line, ~80mi, plus parts of Rt 81/22/422",
+      "Directly covers the PA Turnpike corridor this route drives"
+    ],
     "net_times": [],
     "echolink": null,
     "allstar": null,
@@ -1242,11 +1258,21 @@
     "city": "Derry - Bear Cave",
     "state": "Pennsylvania",
     "county": "Westmoreland",
-    "club": null,
-    "club_url": null,
-    "score": 10,
-    "evidence": [],
-    "net_times": [],
+    "club": "Chestnut Ridge Amateur Radio Club",
+    "club_url": "https://www.qsl.net/n3ydf/chestnut.html",
+    "score": 65,
+    "evidence": [
+      "Primary NWS Skywarn repeater for Westmoreland County",
+      "Westmoreland County Public Service Net, Wednesdays 8pm on this frequency",
+      "Primary county ARES/RACES machine"
+    ],
+    "net_times": [
+      {
+        "dow": "Wed",
+        "time": "20:00",
+        "tz": "America/New_York"
+      }
+    ],
     "echolink": null,
     "allstar": null,
     "irlp": null,
@@ -1389,10 +1415,12 @@
     "city": "Jeannette",
     "state": "Pennsylvania",
     "county": "Westmoreland",
-    "club": null,
-    "club_url": null,
-    "score": 10,
-    "evidence": [],
+    "club": "Laurel Highlands VHF Society (WA3TVG)",
+    "club_url": "https://www.qsl.net/w3sii/",
+    "score": 40,
+    "evidence": [
+      "70cm companion to the club's 146.670 Jeannette repeater (same trustee/site)"
+    ],
     "net_times": [],
     "echolink": null,
     "allstar": null,
@@ -1536,10 +1564,12 @@
     "city": "Philo",
     "state": "Ohio",
     "county": "Muskingum",
-    "club": null,
+    "club": "Zanesville Amateur Radio Club (W8ZZV)",
     "club_url": null,
-    "score": 10,
-    "evidence": [],
+    "score": 45,
+    "evidence": [
+      "Club meets 1st Tuesday monthly 7pm at Muskingum County EMA"
+    ],
     "net_times": [],
     "echolink": null,
     "allstar": null,
@@ -1563,10 +1593,12 @@
     "city": "Roseville",
     "state": "Ohio",
     "county": "Muskingum",
-    "club": null,
+    "club": "Tri-County Repeater Club",
     "club_url": null,
-    "score": 10,
-    "evidence": [],
+    "score": 40,
+    "evidence": [
+      "Confirmed club-sponsored repeater (OARC directory)"
+    ],
     "net_times": [],
     "echolink": null,
     "allstar": null,
@@ -1677,10 +1709,12 @@
     "city": "Columbus",
     "state": "Ohio",
     "county": "Franklin",
-    "club": null,
-    "club_url": null,
-    "score": 0,
-    "evidence": [],
+    "club": "Central Ohio Radio Club",
+    "club_url": "https://corc.us/",
+    "score": 20,
+    "evidence": [
+      "Listed under CORC in the Ohio Area Repeater Council directory (sources differ; also listed elsewhere under a different local club)"
+    ],
     "net_times": [],
     "echolink": null,
     "allstar": null,
@@ -1704,10 +1738,12 @@
     "city": "Columbus",
     "state": "Ohio",
     "county": "Franklin",
-    "club": null,
-    "club_url": null,
-    "score": 0,
-    "evidence": [],
+    "club": "Capital City Repeater Association (CCRA)",
+    "club_url": "https://www.ohioccra.net/",
+    "score": 30,
+    "evidence": [
+      "Confirmed CCRA-sponsored repeater (OARC directory)"
+    ],
     "net_times": [],
     "echolink": null,
     "allstar": null,
@@ -1831,10 +1867,12 @@
     "city": "Columbus",
     "state": "Ohio",
     "county": "Franklin",
-    "club": null,
-    "club_url": null,
-    "score": 0,
-    "evidence": [],
+    "club": "Capital City Repeater Association (CCRA)",
+    "club_url": "https://www.ohioccra.net/",
+    "score": 30,
+    "evidence": [
+      "FM/P25 repeater affiliated with CCRA, listed in Ohio Area Repeater Council directory"
+    ],
     "net_times": [],
     "echolink": null,
     "allstar": null,
@@ -1942,10 +1980,12 @@
     "city": "Columbus",
     "state": "Ohio",
     "county": "Franklin",
-    "club": null,
-    "club_url": null,
-    "score": 0,
-    "evidence": [],
+    "club": "Central Ohio Radio Club",
+    "club_url": "https://corc.us/",
+    "score": 30,
+    "evidence": [
+      "Same trustee/club as the CORC 146.760 severe weather net repeater"
+    ],
     "net_times": [],
     "echolink": null,
     "allstar": null,
