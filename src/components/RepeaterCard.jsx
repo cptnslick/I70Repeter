@@ -8,8 +8,8 @@ export default function RepeaterCard({ repeater, isSelected, isNetNow, onClick }
         isSelected ? 'border-sky-400 bg-slate-800' : 'border-slate-700 bg-slate-800/70'
       }`}
     >
-      <div className="flex items-start justify-between">
-        <span className="text-3xl font-black tabular-nums leading-none">{repeater.freq.toFixed(3)}</span>
+      <div className="flex items-center justify-between">
+        <span className="text-[10px] font-bold text-slate-500">CH {repeater.channel}</span>
         <span
           className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-slate-950"
           style={{ background: scoreColor(repeater.score) }}
@@ -17,6 +17,7 @@ export default function RepeaterCard({ repeater, isSelected, isNetNow, onClick }
           {repeater.score}
         </span>
       </div>
+      <div className="text-3xl font-black tabular-nums leading-none">{repeater.freq.toFixed(3)}</div>
       <div className="mt-1 text-sm text-slate-300">
         {formatOffset(repeater.offset)} &middot; {formatTone(repeater.tone_in)}
       </div>

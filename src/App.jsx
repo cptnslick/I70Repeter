@@ -10,6 +10,7 @@ import { useWakeLock } from './hooks/useWakeLock.js'
 import { useOnlineStatus } from './hooks/useOnlineStatus.js'
 import { nearestOnRoute } from './lib/geo.js'
 import { nearbyRepeaters, nextUpRepeater, distanceAndBearing, isNetNow } from './lib/repeaters.js'
+import { generateChirpCsv, downloadCsv } from './lib/chirpExport.js'
 import repeatersData from './data/repeaters.json'
 
 const isPlaceholderData = repeatersData.some((r) => r.id.startsWith('mock-'))
@@ -68,6 +69,13 @@ function App() {
   }, [position, currentRouteMile, band, minScore])
 
   const selected = selectedId ? enrichedRepeaters.find((r) => r.id === selectedId) ?? null : null
+
+  function handleExportCsv() {
+    // Full corridor list, not the live-filtered subset — the point is to
+    // pre-program the radio with every channel before driving.
+    const csv = generateChirpCsv(repeatersData)
+    downloadCsv('i70-repeater-companion-channels.csv', csv)
+  }
 
   return (
     <div className="relative w-screen h-[100dvh] overflow-hidden bg-slate-950 text-slate-100">
@@ -132,6 +140,8 @@ function App() {
         setMinScore={setMinScore}
         sim={sim}
         wakeLock={wakeLock}
+        onExportCsv={handleExportCsv}
+        channelCount={repeatersData.length}
       />
     </div>
   )

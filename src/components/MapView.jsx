@@ -40,10 +40,17 @@ function repeaterIcon(repeater, isSelected, isNetNow) {
     className: '',
     html: `
       <div style="position: relative; display: flex; align-items: center; justify-content: center;">
-        <div class="${isNetNow ? 'net-pulse' : ''}" style="
-          width: ${size}px; height: ${size}px; border-radius: 50%;
-          background: ${color}; box-shadow: ${ring};
-        "></div>
+        <div style="position: relative; width: ${size}px; height: ${size}px;">
+          <div class="${isNetNow ? 'net-pulse' : ''}" style="
+            width: 100%; height: 100%; border-radius: 50%;
+            background: ${color}; box-shadow: ${ring};
+          "></div>
+          <div style="
+            position: absolute; top: -6px; right: -6px; min-width: 14px; height: 14px;
+            padding: 0 3px; border-radius: 7px; background: #0b0f14; border: 1px solid ${color};
+            color: #fff; font-size: 9px; font-weight: 800; line-height: 14px; text-align: center;
+          ">${repeater.channel}</div>
+        </div>
         <div style="
           position: absolute; top: ${size + 2}px; left: 50%; transform: translateX(-50%);
           font-size: 9px; font-weight: 700; color: #e6edf3; background: rgba(11,15,20,0.85);

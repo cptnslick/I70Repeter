@@ -35,6 +35,7 @@ export default function RepeaterDetail({ repeater, isNetNow, onClose }) {
       </div>
 
       <div className="flex items-center gap-2">
+        <span className="text-xs font-bold px-2 py-1 rounded-full bg-slate-700 tabular-nums">CH {repeater.channel}</span>
         <span
           className="text-xs font-bold px-2 py-1 rounded-full text-slate-950"
           style={{ background: scoreColor(repeater.score) }}

@@ -13,6 +13,8 @@ export default function SettingsSheet({
   setMinScore,
   sim,
   wakeLock,
+  onExportCsv,
+  channelCount,
 }) {
   if (!open) return null
 
@@ -57,6 +59,15 @@ export default function SettingsSheet({
             onChange={(e) => setMinScore(Number(e.target.value))}
             className="w-full h-12"
           />
+        </div>
+
+        <div className="border-t border-slate-800 pt-4">
+          <button
+            onClick={onExportCsv}
+            className="w-full py-3 rounded-xl bg-emerald-600 active:bg-emerald-700 font-bold text-lg"
+          >
+            Export Baofeng/CHIRP CSV ({channelCount} channels)
+          </button>
         </div>
 
         {wakeLock.supported && (

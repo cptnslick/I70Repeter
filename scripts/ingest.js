@@ -270,6 +270,11 @@ function main() {
   }
 
   records.sort((a, b) => a.route_mile - b.route_mile)
+  // Channel number = position along the route, east (Baltimore, mile 0) to
+  // west (Westerville) — doubles as the Baofeng/CHIRP memory channel number.
+  records.forEach((r, i) => {
+    r.channel = i + 1
+  })
   const scored = mergeOverrides(records)
 
   if (!existsSync(dirname(OUT_PATH))) mkdirSync(dirname(OUT_PATH), { recursive: true })
