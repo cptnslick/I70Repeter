@@ -204,11 +204,90 @@
     ],
     "score_bonus": 40
   },
+  "rb-24-177": {
+    "club_name": "Mid-Atlantic Wireless Communications Group (MAWCG)",
+    "club_url": "https://mawcg.org/repeaters-and-more/",
+    "evidence": [
+      "Confirmed Wires-X node on this exact frequency (448.425) in Frederick",
+      "Part of MAWCG's active Fusion/D-Star network; connects to a Maryland D-Star net nightly 8-10:10pm"
+    ],
+    "score_bonus": 45
+  },
+  "rb-54-5": {
+    "evidence": [
+      "Trustee (Adam Lassiter, KB8UUE) is VP of Eastern Panhandle Amateur Radio Club (EPARC/K8EP) — club is real and active (k8ep.com, FB), but this specific repeater isn't confirmed as the official club machine"
+    ],
+    "score_bonus": 15
+  },
+  "rb-42-7638": {
+    "club_name": "Laurel Highlands VHF Society (WA3TVG)",
+    "club_url": "https://www.qsl.net/w3sii/",
+    "evidence": [
+      "Exact frequency/tone match (146.670, PL 131.8) to the Society's long-running \"Acme\" repeater on Chestnut Ridge",
+      "Club meets Wednesdays 7:30pm; decades of continuous operation"
+    ],
+    "score_bonus": 40
+  },
+  "rb-39-424": {
+    "club_name": "Amateur Radio & RF Club at Ohio State University (W8LT)",
+    "club_url": "https://u.osu.edu/w8lt/",
+    "evidence": [
+      "Active student org with maintained website, Facebook, and Instagram",
+      "Regular club-room meetings (Bevis Hall / Caldwell)"
+    ],
+    "score_bonus": 35
+  },
+  "rb-39-7258": {
+    "club_name": "Eastern Ohio Amateur Wireless Association (EOAWA)",
+    "club_url": "https://belmontcountyema.org/volunteer/belmont-county-ham-radio-club/",
+    "evidence": [
+      "Club meets 2nd Thursday monthly 6:30pm",
+      "Site has two linked repeaters (145.210 + 441.950) along I-70 near milepost 215"
+    ],
+    "score_bonus": 40
+  },
   "rb-42-18027": {
     "club_name": "Bedford County Amateur Radio Society (BCARS)",
     "club_url": "https://www.bcars.org/",
     "evidence": [
       "70cm counterpart to the BCARS Kinton Knob site"
+    ],
+    "score_bonus": 40
+  },
+  "rb-39-6729": {
+    "club_name": "West Central Ohio Amateur Radio Association (WCOARA)",
+    "club_url": "http://www.wcoara.org/",
+    "evidence": [
+      "Confirmed active EchoLink node WC8OH-R",
+      "Club meets 3rd Monday monthly at 7pm on Zoom"
+    ],
+    "score_bonus": 45
+  },
+  "rb-39-401": {
+    "club_name": "Newark Amateur Radio Association (N8ARA)",
+    "club_url": "https://n8ara.org/",
+    "evidence": [
+      "Active club, meets 3rd Saturday monthly",
+      "Repeaters used directly for Licking County ARES nets"
+    ],
+    "score_bonus": 45
+  },
+  "rb-39-46": {
+    "club_name": "CRES Amateur Radio Club (W8ZPF)",
+    "club_url": "https://w8zpf.com/",
+    "evidence": [
+      "Established 1962; weekly club net Sundays 9pm on this exact repeater",
+      "Wide coverage: Franklin, Fairfield, and much of Licking County"
+    ],
+    "score_bonus": 55,
+    "net_times": [{ "dow": "Sun", "time": "21:00", "tz": "America/New_York" }]
+  },
+  "rb-42-7595": {
+    "club_name": "Uniontown Amateur Radio Club (W3PIE)",
+    "club_url": "https://w3pie.org/index.php/about-club/",
+    "evidence": [
+      "Continuously operating club since 1933 (as Fayette County Radio Club)",
+      "Wide-area mountaintop site co-located with Fayette County 911, emergency generator backup"
     ],
     "score_bonus": 40
   }
